@@ -278,6 +278,20 @@
                         <td></td>
                         <td><input type="number" id="tresorerie" value="0.6" step="0.1" onchange="updateValuation()"></td>
                     </tr>
+                    
+                    <!-- Nouveaux champs pour les pondérations du Mix -->
+                    <tr>
+                        <td>Pondération Actif (Mix)</td>
+                        <td id="weightActifDisplay">30%</td>
+                        <td>Pondération utilisée dans l'évaluation Mix</td>
+                        <td><input type="number" id="weightActif" value="30" min="0" max="100" step="1" onchange="updateMixWeights()"></td>
+                    </tr>
+                    <tr>
+                        <td>Pondération Equity (Mix)</td>
+                        <td id="weightEquityDisplay">70%</td>
+                        <td>Pondération utilisée dans l'évaluation Mix</td>
+                        <td><input type="number" id="weightEquity" value="70" min="0" max="100" step="1" onchange="updateMixWeights()"></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -348,7 +362,7 @@
                         <td id="actifNetValue" class="highlight"></td>
                     </tr>
                     <tr>
-                        <td>Mix (30% Actif + 70% Equity)</td>
+                        <td>Mix (<span id="mixRatioDisplay"></span>)</td>
                         <td id="mixCalc"></td>
                         <td id="mixValue" class="highlight"></td>
                     </tr>
@@ -608,7 +622,7 @@
                         <tr><td>EV = <span id="reportMixMultiple"></span> × EBITDA</td><td id="reportMixEVCalc"></td><td id="reportMixEVValue" class="highlight"></td></tr>
                         <tr><td>Equity rendement</td><td id="reportMixEquityCalc"></td><td id="reportMixEquityValue" class="highlight"></td></tr>
                         <tr><td>Actif net réévalué</td><td></td><td id="reportMixActifNetValue" class="highlight"></td></tr>
-                        <tr><td>Mix (<span id="reportMixPonderation"></span>)</td><td id="reportMixFinalCalc"></td><td id="reportMixFinalValue" class="highlight"></td></tr>
+                        <tr><td>Mix (<span id="reportMixRatioDisplay"></span>)</td><td id="reportMixFinalCalc"></td><td id="reportMixFinalValue" class="highlight"></td></tr>
                     </tbody>
                 </table>
 
@@ -662,6 +676,25 @@
         
         // Fonction pour récupérer les valeurs des hypothèses
         function getHypotheses() {
+            // Lire d'abord les valeurs de base
+            let weightActif = parseFloat(document.getElementById('weightActif')?.value) || 30;
+            let weightEquity = parseFloat(document.getElementById('weightEquity')?.value) || 70;
+            
+            // S'assurer que la somme est égale à 100
+            const totalWeight = weightActif + weightEquity;
+            if (totalWeight !== 100) {
+                // Ajuster proportionnellement si le total n'est pas 100
+                const factor = 100 / totalWeight;
+                weightActif = Math.round(weightActif * factor);
+                weightEquity = 100 - weightActif; // Garantir exactement 100%
+                
+                // Mettre à jour les inputs avec les valeurs ajustées
+                document.getElementById('weightActif').value = weightActif;
+                document.getElementById('weightEquity').value = weightEquity;
+                document.getElementById('weightActifDisplay').textContent = `${weightActif}%`;
+                document.getElementById('weightEquityDisplay').textContent = `${weightEquity}%`;
+            }
+            
             return {
                 capacites2025: parseFloat(document.getElementById('capacites2025').value) || 84000,
                 capacites2026: parseFloat(document.getElementById('capacites2026').value) || 120000,
@@ -683,8 +716,37 @@
                 dette: parseFloat(document.getElementById('dette').value) || 6,
                 tresorerie: parseFloat(document.getElementById('tresorerie').value) || 0.6,
                 pondeuses: 2000,
-                goodwillRate: (parseFloat(document.getElementById('goodwillRate')?.value) / 100) || 0.05
+                goodwillRate: (parseFloat(document.getElementById('goodwillRate')?.value) / 100) || 0.05,
+                // Ajouter les pondérations du Mix (garanties à 100%)
+                weightActif: weightActif,
+                weightEquity: weightEquity
             };
+        }
+        
+        // Fonction pour mettre à jour les pondérations du Mix
+        function updateMixWeights() {
+            const weightActif = parseFloat(document.getElementById('weightActif').value) || 0;
+            const weightEquity = parseFloat(document.getElementById('weightEquity').value) || 0;
+            
+            // Vérifier si une des deux valeurs a été modifiée
+            if (document.activeElement.id === 'weightActif') {
+                // Si c'est actif qui a été modifié, ajuster equity
+                if (weightActif >= 0 && weightActif <= 100) {
+                    document.getElementById('weightEquity').value = 100 - weightActif;
+                }
+            } else if (document.activeElement.id === 'weightEquity') {
+                // Si c'est equity qui a été modifié, ajuster actif
+                if (weightEquity >= 0 && weightEquity <= 100) {
+                    document.getElementById('weightActif').value = 100 - weightEquity;
+                }
+            }
+            
+            // Mettre à jour les affichages
+            document.getElementById('weightActifDisplay').textContent = `${document.getElementById('weightActif').value}%`;
+            document.getElementById('weightEquityDisplay').textContent = `${document.getElementById('weightEquity').value}%`;
+            
+            // Mettre à jour la valorisation
+            updateValuation();
         }
         
         // Fonction pour calculer le CA
@@ -890,9 +952,9 @@
             const ebitdaNet2026_display = resultats_base_affichage[1].ebitdaNet; // Index 1 for year 2026
             const evMix = ebitdaNet2026_display * h.multipleEVEBITDA;
             const equityMix = evMix - h.dette + h.tresorerie;
-            // Utiliser les pondérations de l'interface (default 30/70)
-            const weightActifNet = 0.3; // Ou lire depuis l'interface si on ajoute les inputs
-            const weightEquity = 0.7;   // Idem
+            // Utiliser les pondérations de l'interface
+            const weightActifNet = h.weightActif / 100; // Lire depuis les hypothèses
+            const weightEquity = h.weightEquity / 100;   // Lire depuis les hypothèses
             const mixValue = weightActifNet * h.actifNet + weightEquity * equityMix;
 
             // Mise à jour des champs Mix (affichage)
@@ -903,6 +965,14 @@
             document.getElementById('equityCalc').textContent = `${formatNumber(evMix, 1)} - ${formatNumber(h.dette, 1)} + ${formatNumber(h.tresorerie, 1)}`;
             document.getElementById('equityValue').textContent = formatNumber(equityMix, 1);
             document.getElementById('actifNetValue').textContent = formatNumber(h.actifNet, 3);
+            
+            // Mettre à jour le texte des ratios du Mix
+            const mixRatioText = `${weightActifNet*100}% Actif + ${weightEquity*100}% Equity`;
+            document.getElementById('mixRatioDisplay').textContent = mixRatioText;
+            if (document.getElementById('reportMixRatioDisplay')) {
+                document.getElementById('reportMixRatioDisplay').textContent = mixRatioText;
+            }
+            
             document.getElementById('mixCalc').textContent = `${weightActifNet*100}% × ${formatNumber(h.actifNet, 1)} + ${weightEquity*100}% × ${formatNumber(equityMix, 1)}`;
             document.getElementById('mixValue').textContent = formatNumber(mixValue, 1);
 
@@ -1211,6 +1281,29 @@
                              }
                         } else {
                             console.warn(`Élément input non trouvé pour la clé d'hypothèse: ${key}`);
+                        }
+                    }
+                    
+                    // Vérifier spécifiquement les pondérations du Mix après importation
+                    // pour s'assurer qu'elles totalisent 100%
+                    const weightActifInput = document.getElementById('weightActif');
+                    const weightEquityInput = document.getElementById('weightEquity');
+                    if (weightActifInput && weightEquityInput) {
+                        const importedWeightActif = parseFloat(weightActifInput.value) || 30;
+                        const importedWeightEquity = parseFloat(weightEquityInput.value) || 70;
+                        const totalWeight = importedWeightActif + importedWeightEquity;
+                        
+                        if (totalWeight !== 100) {
+                            // Ajuster pour garantir un total de 100%
+                            const adjustedWeightActif = Math.round((importedWeightActif / totalWeight) * 100);
+                            const adjustedWeightEquity = 100 - adjustedWeightActif;
+                            
+                            weightActifInput.value = adjustedWeightActif;
+                            weightEquityInput.value = adjustedWeightEquity;
+                            document.getElementById('weightActifDisplay').textContent = `${adjustedWeightActif}%`;
+                            document.getElementById('weightEquityDisplay').textContent = `${adjustedWeightEquity}%`;
+                            
+                            console.log(`Pondérations ajustées à 100%: Actif=${adjustedWeightActif}%, Equity=${adjustedWeightEquity}%`);
                         }
                     }
 
