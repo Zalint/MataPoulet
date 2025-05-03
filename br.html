@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation Mata Volaille</title>
+  <script>
+    // Définition de la fonction openTab globalement dès le début
+    function openTab(tabName) {
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove('active');
+      }
+      
+      const tabs = document.getElementsByClassName('tab');
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+      }
+      
+      document.getElementById(tabName).classList.add('active');
+      document.querySelector(`.tab[onclick="openTab('${tabName}')"]`).classList.add('active');
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      border-radius: 5px 5px 0 0;
+      margin-right: 5px;
+    }
+    .tab.active {
+      background-color: white;
+      border-bottom: 1px solid white;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .section {
+      margin-bottom: 30px;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+    .section h3 {
+      margin-top: 0;
+      color: #16a085;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #16a085;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #138a72;
+    }
+    .result-box {
+      background-color: #ebf5f0;
+      border: 1px solid #16a085;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .alert {
+      color: #e74c3c;
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #16a085;
+    }
+    .chart-container {
+      height: 300px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Évaluation Mata Volaille</h1>
+    
+    <div class="tabs">
+      <div class="tab active" onclick="openTab('hypotheses')">Hypothèses</div>
+      <div class="tab" onclick="openTab('mix')">Évaluation Mix</div>
+      <div class="tab" onclick="openTab('dcf')">DCF</div>
+      <div class="tab" onclick="openTab('sensibilite')">Sensibilités</div>
+    </div>
+    
+    <!-- Tab Hypothèses -->
+    <div id="hypotheses" class="tab-content active">
+      <div class="section">
+        <h3>1. Hypothèses majeures</h3>
+        <table id="hypothesesTable">
+          <tr>
+            <th width="30%">Thème</th>
+            <th width="30%">Hypothèse</th>
+            <th width="30%">Commentaire / source</th>
+            <th width="10%">Modifier</th>
+          </tr>
+          <tr>
+            <td>Capacités 2025</td>
+            <td id="capacites2025Display">84 000 broilers</td>
+            <td>Planning interne</td>
+            <td><input type="number" id="capacites2025" value="84000" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Capacités 2026+</td>
+            <td id="capacites2026Display">120 000 broilers/an + 2 000 pondeuses</td>
+            <td>Planning interne</td>
+            <td><input type="number" id="capacites2026" value="120000" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Prix poulet</td>
+            <td id="prixPouletDisplay">2 800 FCFA (1,4 kg vif)</td>
+            <td>Marché Dakar Q2-2025</td>
+            <td><input type="number" id="prixPoulet" value="2800" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Prix plateau œufs</td>
+            <td id="prixOeufsDisplay">2 300 FCFA</td>
+            <td>Grossistes</td>
+            <td><input type="number" id="prixOeufs" value="2300" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Marge opérationnelle</td>
+            <td id="margeOpDisplay">18%</td>
+            <td>Historique iteratif</td>
+            <td><input type="number" id="margeOp" value="18" min="0" max="100" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Assurance broilers</td>
+            <td id="assuranceDisplay">9,30 M FCFA/an</td>
+            <td>Police SICAR</td>
+            <td><input type="number" id="assurance" value="9.3" step="0.1" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>CAPEX 2025</td>
+            <td id="capex2025Display">5,75 M FCFA</td>
+            <td>Devis locaux</td>
+            <td><input type="number" id="capex2025" value="5.75" step="0.25" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>CAPEX maintenance 2026+</td>
+            <td id="capexMaintenanceDisplay">5 M F/an</td>
+            <td></td>
+            <td><input type="number" id="capexMaintenance" value="5" step="0.5" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Amortissements (D&A)</td>
+            <td id="amortissementsDisplay">3,75 M F/an</td>
+            <td>Inventaire 18,205 M sur 7 ans + CAPEX 5,75 M sur 5 ans</td>
+            <td><input type="number" id="amortissements" value="3.75" step="0.25" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>BFR cible (30 j)</td>
+            <td id="bfrCibleDisplay">39,6 M FCFA</td>
+            <td>Créances 30 j + WIP + feed – dettes fournisseurs</td>
+            <td><input type="number" id="bfrCible" value="39.6" step="0.1" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Δ BFR 2025</td>
+            <td id="deltaBFRDisplay">+29 M F (10 M → 39,6 M)</td>
+            <td></td>
+            <td><input type="number" id="deltaBFR" value="29" step="1" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Actif net réévalué</td>
+            <td id="actifNetDisplay">18,205 M FCFA</td>
+            <td>Inventaire avril 2025</td>
+            <td><input type="number" id="actifNet" value="18.205" step="0.1" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>WACC</td>
+            <td id="waccDisplay">18%</td>
+            <td>3,5% (BCEAO) + 5,5% ERP + 6% prime pays + 3% prime taille</td>
+            <td><input type="number" id="wacc" value="18" min="0" max="100" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Croissance terminale g</td>
+            <td id="croissanceTerminaleDisplay">3%</td>
+            <td></td>
+            <td><input type="number" id="croissanceTerminale" value="3" min="0" max="10" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Multiple EV/EBITDA</td>
+            <td id="multipleEVEBITDADisplay">4,0×</td>
+            <td>Médiane PME avicoles Afrique de l'Ouest – 10% décote Sedima</td>
+            <td><input type="number" id="multipleEVEBITDA" value="4" min="0" max="15" step="0.1" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Dette actionnaire</td>
+            <td id="detteDisplay">6 M FCFA</td>
+            <td></td>
+            <td><input type="number" id="dette" value="6" step="0.5" onchange="updateValuation()"></td>
+          </tr>
+          <tr>
+            <td>Trésorerie</td>
+            <td id="tresorerieDisplay">0,6 M FCFA</td>
+            <td></td>
+            <td><input type="number" id="tresorerie" value="0.6" step="0.1" onchange="updateValuation()"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Tab Évaluation Mix -->
+    <div id="mix" class="tab-content">
+      <div class="section">
+        <h3>Évaluation "Mix Actif / Multiple"</h3>
+        <table>
+          <tr>
+            <th>Élément</th>
+            <th>Calcul</th>
+            <th>Valeur</th>
+          </tr>
+          <tr>
+            <td>EBITDA net 2026</td>
+            <td id="ebitdaNetCalc"></td>
+            <td id="ebitdaNetValue" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>EV = Multiple × EBITDA</td>
+            <td id="evCalc"></td>
+            <td id="evValue" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>Equity rendement</td>
+            <td id="equityCalc"></td>
+            <td id="equityValue" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>Actif net réévalué</td>
+            <td></td>
+            <td id="actifNetValue" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>Mix (30% Actif + 70% Equity)</td>
+            <td id="mixCalc"></td>
+            <td id="mixValue" class="highlight"></td>
+          </tr>
+        </table>
+        
+        <div class="result-box">
+          <h3>Valeur finale - Mix Actif/Multiple</h3>
+          <p>Valeur centrale: <span id="mixFinalValue" class="highlight"></span></p>
+          <p>Fourchette: <span id="mixRange" class="highlight"></span></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tab DCF -->
+    <div id="dcf" class="tab-content">
+      <div class="section">
+        <h3>États financiers 2025-2029 et DCF</h3>
+        <table>
+          <tr>
+            <th>Année</th>
+            <th>CA (M)</th>
+            <th>EBITDA</th>
+            <th>- Assurance</th>
+            <th>EBITDA net</th>
+            <th>D&A</th>
+            <th>EBIT</th>
+            <th>IS 30%</th>
+            <th>NOPAT</th>
+            <th>+ D&A</th>
+            <th>- CAPEX</th>
+            <th>- Δ BFR</th>
+            <th>FCF (M)</th>
+          </tr>
+          <tbody id="dcfTableBody">
+            <!-- Dynamically filled by JavaScript -->
+          </tbody>
+        </table>
+        
+        <h3>Calcul DCF</h3>
+        <table>
+          <tr>
+            <th>Année</th>
+            <th>FCF (M)</th>
+            <th>Facteur d'actualisation</th>
+            <th>VA (M)</th>
+          </tr>
+          <tbody id="dcfCalcTableBody">
+            <!-- Dynamically filled by JavaScript -->
+          </tbody>
+          <tr>
+            <td>Σ VA FCF</td>
+            <td></td>
+            <td></td>
+            <td id="sumVAFCF" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>Terminal FCF 2029</td>
+            <td id="terminalFCFCalc"></td>
+            <td id="terminalFCFValueCalc"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>VA terminale</td>
+            <td></td>
+            <td id="vaTerminaleCalc"></td>
+            <td id="vaTerminaleValue" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>Enterprise Value DCF</td>
+            <td></td>
+            <td></td>
+            <td id="evDCF" class="highlight"></td>
+          </tr>
+          <tr>
+            <td>Equity DCF</td>
+            <td id="equityDCFCalc"></td>
+            <td></td>
+            <td id="equityDCFValue" class="highlight"></td>
+          </tr>
+        </table>
+        
+        <div class="result-box">
+          <h3>Valeur finale - DCF</h3>
+          <p>Valeur centrale: <span id="dcfFinalValue" class="highlight"></span></p>
+          <p>Fourchette: <span id="dcfRange" class="highlight"></span></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tab Sensibilités -->
+    <div id="sensibilite" class="tab-content">
+      <div class="section">
+        <h3>Analyse de sensibilité</h3>
+        <table>
+          <tr>
+            <th>Scénario</th>
+            <th>Δ EBITDA (M)</th>
+            <th>Effet Mix</th>
+            <th>Effet DCF</th>
+          </tr>
+          <tr>
+            <td>+ 100 F prix ou - 100 F coût</td>
+            <td id="deltaEBITDAPrix"></td>
+            <td id="effetMixPrix"></td>
+            <td id="effetDCFPrix"></td>
+          </tr>
+          <tr>
+            <td>WACC - 1 pt</td>
+            <td>—</td>
+            <td>—</td>
+            <td id="effetWACC"></td>
+          </tr>
+          <tr>
+            <td>Crédit fournisseur 45 j (BFR - 8 M)</td>
+            <td>—</td>
+            <td>—</td>
+            <td id="effetBFR"></td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="section">
+        <h3>Conclusion</h3>
+        <p>En tenant compte :</p>
+        <ul>
+          <li>d'une assurance broilers équivalente à <span id="conclusionAssurance"></span> M FCFA/an,</li>
+          <li>d'un CAPEX initial limité à <span id="conclusionCAPEX"></span> M FCFA,</li>
+          <li>d'un BFR permanent d'environ <span id="conclusionBFR"></span> M FCFA et</li>
+          <li>d'une marge opérationnelle <span id="conclusionMarge"></span>% (hors assurance),</li>
+        </ul>
+        <p>la valeur économique de Mata Volaille se situe entre <span id="conclusionFourchetteBas" class="highlight"></span> M et <span id="conclusionFourchetteHaut" class="highlight"></span> M FCFA.</p>
+        <p>Le paramètre le plus sensible reste la marge unitaire : chaque variation de 100 FCFA sur le prix de vente ou le coût d'aliment déplace la valeur DCF d'environ <span id="conclusionSensibilite"></span> M FCFA.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // La fonction openTab est maintenant déjà définie en haut de la page
+    
+    // Format des nombres en fonction du format français
+    function formatNumber(number, decimals = 2) {
+      if (number === undefined || number === null) return '';
+      if (decimals === 0) {
+        return Math.round(number).toLocaleString('fr-FR');
+      }
+      return number.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+    
+    // Fonction pour récupérer les valeurs des hypothèses
+    function getHypotheses() {
+      return {
+        capacites2025: parseFloat(document.getElementById('capacites2025').value) || 84000,
+        capacites2026: parseFloat(document.getElementById('capacites2026').value) || 120000,
+        prixPoulet: parseFloat(document.getElementById('prixPoulet').value) || 2800,
+        prixOeufs: parseFloat(document.getElementById('prixOeufs').value) || 2300,
+        margeOp: parseFloat(document.getElementById('margeOp').value) || 18,
+        assurance: parseFloat(document.getElementById('assurance').value) || 9.3,
+        capex2025: parseFloat(document.getElementById('capex2025').value) || 5.75,
+        capexMaintenance: parseFloat(document.getElementById('capexMaintenance').value) || 5,
+        amortissements: parseFloat(document.getElementById('amortissements').value) || 3.75,
+        bfrCible: parseFloat(document.getElementById('bfrCible').value) || 39.6,
+        deltaBFR: parseFloat(document.getElementById('deltaBFR').value) || 29,
+        actifNet: parseFloat(document.getElementById('actifNet').value) || 18.205,
+        wacc: parseFloat(document.getElementById('wacc').value) || 18,
+        croissanceTerminale: parseFloat(document.getElementById('croissanceTerminale').value) || 3,
+        multipleEVEBITDA: parseFloat(document.getElementById('multipleEVEBITDA').value) || 4,
+        dette: parseFloat(document.getElementById('dette').value) || 6,
+        tresorerie: parseFloat(document.getElementById('tresorerie').value) || 0.6,
+        pondeuses: 2000 // Fixé
+      };
+    }
+    
+    // Fonction pour calculer le CA
+    function calculerCA(h, year) {
+      // Simplification: progression du CA selon capacités
+      if (year === 2025) {
+        return (h.capacites2025 * h.prixPoulet / 1000) * (7/12); // 7 mois en 2025
+      } else {
+        // Progression annuelle d'environ 3% après 2026
+        const baseCA = h.capacites2026 * h.prixPoulet / 1000;
+        const caOeufs = h.pondeuses * 250 * h.prixOeufs / 30 / 1000; // ~250 œufs/pondeuse/an
+        const caTotal = baseCA + caOeufs;
+        
+        if (year === 2026) {
+          return caTotal;
+        } else {
+          return caTotal * Math.pow(1 + (h.croissanceTerminale / 100), year - 2026);
+        }
+      }
+    }
+    
+    // Fonction pour mettre à jour les calculs et l'affichage
+    function updateValuation() {
+      const h = getHypotheses();
+      
+      // Mettre à jour les affichages des hypothèses
+      document.getElementById('capacites2025Display').textContent = `${formatNumber(h.capacites2025, 0)} broilers`;
+      document.getElementById('capacites2026Display').textContent = `${formatNumber(h.capacites2026, 0)} broilers/an + ${formatNumber(h.pondeuses, 0)} pondeuses`;
+      document.getElementById('prixPouletDisplay').textContent = `${formatNumber(h.prixPoulet, 0)} FCFA (1,4 kg vif)`;
+      document.getElementById('prixOeufsDisplay').textContent = `${formatNumber(h.prixOeufs, 0)} FCFA`;
+      document.getElementById('margeOpDisplay').textContent = `${h.margeOp}%`;
+      document.getElementById('assuranceDisplay').textContent = `${formatNumber(h.assurance, 2)} M FCFA/an`;
+      document.getElementById('capex2025Display').textContent = `${formatNumber(h.capex2025, 2)} M FCFA`;
+      document.getElementById('capexMaintenanceDisplay').textContent = `${formatNumber(h.capexMaintenance, 0)} M F/an`;
+      document.getElementById('amortissementsDisplay').textContent = `${formatNumber(h.amortissements, 2)} M F/an`;
+      document.getElementById('bfrCibleDisplay').textContent = `${formatNumber(h.bfrCible, 1)} M FCFA`;
+      document.getElementById('deltaBFRDisplay').textContent = `+${formatNumber(h.deltaBFR, 0)} M F`;
+      document.getElementById('actifNetDisplay').textContent = `${formatNumber(h.actifNet, 3)} M FCFA`;
+      document.getElementById('waccDisplay').textContent = `${h.wacc}%`;
+      document.getElementById('croissanceTerminaleDisplay').textContent = `${h.croissanceTerminale}%`;
+      document.getElementById('multipleEVEBITDADisplay').textContent = `${formatNumber(h.multipleEVEBITDA, 1)}×`;
+      document.getElementById('detteDisplay').textContent = `${formatNumber(h.dette, 1)} M FCFA`;
+      document.getElementById('tresorerieDisplay').textContent = `${formatNumber(h.tresorerie, 1)} M FCFA`;
+      
+      // Calculer les résultats financiers pour les 5 ans
+      const resultats = [];
+      for (let year = 2025; year <= 2029; year++) {
+        const ca = calculerCA(h, year);
+        const ebitda = ca * (h.margeOp / 100);
+        const ebitdaNet = ebitda - h.assurance;
+        const ebit = ebitdaNet - h.amortissements;
+        const impot = ebit * 0.3; // IS à 30%
+        const nopat = ebit - impot;
+        
+        // CAPEX et variation BFR selon années
+        const capex = (year === 2025) ? h.capex2025 : h.capexMaintenance;
+        const deltaBFR = (year === 2025) ? h.deltaBFR : 0;
+        
+        const fcf = nopat + h.amortissements - capex - deltaBFR;
+        
+        resultats.push({
+          year,
+          ca,
+          ebitda,
+          assurance: h.assurance,
+          ebitdaNet,
+          da: h.amortissements,
+          ebit,
+          impot,
+          nopat,
+          capex,
+          deltaBFR,
+          fcf
+        });
+      }
+      
+      // Mise à jour du tableau DCF
+      const dcfTableBody = document.getElementById('dcfTableBody');
+      dcfTableBody.innerHTML = '';
+      
+      resultats.forEach(res => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${res.year}</td>
+          <td>${formatNumber(res.ca, 1)}</td>
+          <td>${formatNumber(res.ebitda, 1)}</td>
+          <td>${formatNumber(res.assurance, 1)}</td>
+          <td>${formatNumber(res.ebitdaNet, 1)}</td>
+          <td>${formatNumber(res.da, 1)}</td>
+          <td>${formatNumber(res.ebit, 1)}</td>
+          <td>${formatNumber(res.impot, 1)}</td>
+          <td>${formatNumber(res.nopat, 1)}</td>
+          <td>${formatNumber(res.da, 1)}</td>
+          <td>${formatNumber(res.capex, 2)}</td>
+          <td>${formatNumber(res.deltaBFR, 1)}</td>
+          <td class="highlight">${formatNumber(res.fcf, 1)}</td>
+        `;
+        dcfTableBody.appendChild(row);
+      });
+      
+      // Calcul DCF
+      const dcfCalcTableBody = document.getElementById('dcfCalcTableBody');
+      dcfCalcTableBody.innerHTML = '';
+      
+      let sumVA = 0;
+      resultats.forEach((res, index) => {
+        const facteur = 1 / Math.pow(1 + (h.wacc / 100), index + 1);
+        const va = res.fcf * facteur;
+        sumVA += va;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${res.year}</td>
+          <td>${formatNumber(res.fcf, 1)}</td>
+          <td>${formatNumber(facteur, 3)}</td>
+          <td>${formatNumber(va, 1)}</td>
+        `;
+        dcfCalcTableBody.appendChild(row);
+      });
+      
+      // Valeur terminale
+      const lastFCF = resultats[resultats.length - 1].fcf;
+      const terminalFCF = lastFCF * (1 + (h.croissanceTerminale / 100));
+      const terminalValue = terminalFCF / ((h.wacc - h.croissanceTerminale) / 100);
+      const lastFacteur = 1 / Math.pow(1 + (h.wacc / 100), resultats.length);
+      const vaTerminale = terminalValue * lastFacteur;
+      
+      // Enterprise Value et Equity Value
+      const evDCF = sumVA + vaTerminale;
+      const equityDCF = evDCF - h.dette + h.tresorerie;
+      
+      // Mise à jour des champs DCF
+      document.getElementById('sumVAFCF').textContent = formatNumber(sumVA, 1);
+      document.getElementById('terminalFCFCalc').textContent = `${formatNumber(lastFCF, 1)} × ${formatNumber(1 + (h.croissanceTerminale / 100), 2)} = ${formatNumber(terminalFCF, 1)}`;
+      document.getElementById('terminalFCFValueCalc').textContent = `/${formatNumber((h.wacc - h.croissanceTerminale) / 100, 3)} = ${formatNumber(terminalValue, 1)}`;
+      document.getElementById('vaTerminaleCalc').textContent = `× ${formatNumber(lastFacteur, 3)}`;
+      document.getElementById('vaTerminaleValue').textContent = formatNumber(vaTerminale, 1);
+      document.getElementById('evDCF').textContent = formatNumber(evDCF, 1);
+      document.getElementById('equityDCFCalc').textContent = `EV - dette ${formatNumber(h.dette, 1)} + tréso ${formatNumber(h.tresorerie, 1)}`;
+      document.getElementById('equityDCFValue').textContent = formatNumber(equityDCF, 1);
+      
+      // Mise à jour des valeurs Mix
+      const ebitdaNet2026 = resultats[1].ebitdaNet;
+      const ev = ebitdaNet2026 * h.multipleEVEBITDA;
+      const equity = ev - h.dette + h.tresorerie;
+      const mixValue = 0.3 * h.actifNet + 0.7 * equity;
+      
+      // Mise à jour des champs Mix
+      document.getElementById('ebitdaNetCalc').textContent = formatNumber(ebitdaNet2026, 1);
+      document.getElementById('ebitdaNetValue').textContent = formatNumber(ebitdaNet2026, 1);
+      document.getElementById('evCalc').textContent = `${formatNumber(h.multipleEVEBITDA, 1)} × ${formatNumber(ebitdaNet2026, 1)}`;
+      document.getElementById('evValue').textContent = formatNumber(ev, 1);
+      document.getElementById('equityCalc').textContent = `${formatNumber(ev, 1)} - ${formatNumber(h.dette, 1)} + ${formatNumber(h.tresorerie, 1)}`;
+      document.getElementById('equityValue').textContent = formatNumber(equity, 1);
+      document.getElementById('actifNetValue').textContent = formatNumber(h.actifNet, 3);
+      document.getElementById('mixCalc').textContent = `0,3 × ${formatNumber(h.actifNet, 1)} + 0,7 × ${formatNumber(equity, 1)}`;
+      document.getElementById('mixValue').textContent = formatNumber(mixValue, 1);
+      
+      // Valeurs finales et fourchettes
+      const mixLow = Math.round((mixValue * 0.95) / 10) * 10;
+      const mixHigh = Math.round((mixValue * 1.05) / 10) * 10;
+      document.getElementById('mixFinalValue').textContent = `${formatNumber(mixValue, 1)} M FCFA`;
+      document.getElementById('mixRange').textContent = `${formatNumber(mixLow, 0)} - ${formatNumber(mixHigh, 0)} M FCFA`;
+      
+      const dcfLow = Math.round((equityDCF * 0.95) / 10) * 10;
+      const dcfHigh = Math.round((equityDCF * 1.05) / 10) * 10;
+      document.getElementById('dcfFinalValue').textContent = `${formatNumber(equityDCF, 1)} M FCFA`;
+      document.getElementById('dcfRange').textContent = `${formatNumber(dcfLow, 0)} - ${formatNumber(dcfHigh, 0)} M FCFA`;
+      
+      // Analyse de sensibilité
+      const deltaEBITDAPrix = (h.capacites2026 / 10) * 0.1; // Approx: impact de 100F sur l'EBITDA
+      const effetMixPrix = deltaEBITDAPrix * h.multipleEVEBITDA * 0.7;
+      const effetDCFPrix = deltaEBITDAPrix * (1 / ((h.wacc - h.croissanceTerminale) / 100)) * lastFacteur;
+      
+      document.getElementById('deltaEBITDAPrix').textContent = `+ ${formatNumber(deltaEBITDAPrix, 1)}`;
+      document.getElementById('effetMixPrix').textContent = `+ ${formatNumber(effetMixPrix, 1)} M`;
+      document.getElementById('effetDCFPrix').textContent = `+ ${formatNumber(effetDCFPrix, 1)} M`;
+      
+      // WACC -1pt
+      const waccMoins1 = h.wacc - 1;
+      const facteurWaccMoins1 = terminalFCF / ((waccMoins1 - h.croissanceTerminale) / 100);
+      const effetWACC = (facteurWaccMoins1 - terminalValue) * lastFacteur;
+      document.getElementById('effetWACC').textContent = `+ ${formatNumber(effetWACC, 1)} M`;
+      
+      // BFR -8M
+      const effetBFR = 8;
+      document.getElementById('effetBFR').textContent = `+ ${formatNumber(effetBFR, 1)} M`;
+      
+      // Conclusion
+      document.getElementById('conclusionAssurance').textContent = formatNumber(h.assurance, 2);
+      document.getElementById('conclusionCAPEX').textContent = formatNumber(h.capex2025, 2);
+      document.getElementById('conclusionBFR').textContent = formatNumber(h.bfrCible, 1);
+      document.getElementById('conclusionMarge').textContent = formatNumber(h.margeOp, 0);
+      
+      const moyenneValeur = (mixValue + equityDCF) / 2;
+      const conclusionBas = Math.round((moyenneValeur * 0.95) / 5) * 5;
+      const conclusionHaut = Math.round((moyenneValeur * 1.05) / 5) * 5;
+      document.getElementById('conclusionFourchetteBas').textContent = formatNumber(conclusionBas, 0);
+      document.getElementById('conclusionFourchetteHaut').textContent = formatNumber(conclusionHaut, 0);
+      document.getElementById('conclusionSensibilite').textContent = formatNumber(effetDCFPrix, 0);
+    }
+    
+    // Initialiser les calculs au chargement de la page
+    window.onload = function() {
+      updateValuation();
+    };
