@@ -154,6 +154,43 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsDisplay.dcf_value.textContent = `Valeur DCF: ${formatCurrency(dcfResult.value)} M FCFA`;
 
         resultsDiv.style.display = 'block'; // Show results section
+
+        // ***************** CALCUL ET AFFICHAGE GOODWILL *****************
+        const goodwillRate = h.goodwillRate; // Taux lu depuis les hypothèses
+        const mixValueWithGW = mixResult.value * (1 + goodwillRate);
+        const dcfValueWithGW = dcfResult.value * (1 + goodwillRate);
+
+        // Afficher dans l'onglet Goodwill
+        const mixValueBaseGWEl = document.getElementById('mixValueBaseGW');
+        const mixValueGWEl = document.getElementById('mixValueGW');
+        const dcfValueBaseGWEl = document.getElementById('dcfValueBaseGW');
+        const dcfValueGWEl = document.getElementById('dcfValueGW');
+        const mixFinalValueGWEl = document.getElementById('mixFinalValueGW');
+        const dcfFinalValueGWEl = document.getElementById('dcfFinalValueGW');
+
+        if(mixValueBaseGWEl) mixValueBaseGWEl.textContent = formatNumber(mixResult.value, 1);
+        if(mixValueGWEl) mixValueGWEl.textContent = formatNumber(mixValueWithGW, 1);
+        if(dcfValueBaseGWEl) dcfValueBaseGWEl.textContent = formatNumber(dcfResult.value, 1);
+        if(dcfValueGWEl) dcfValueGWEl.textContent = formatNumber(dcfValueWithGW, 1);
+        if(mixFinalValueGWEl) mixFinalValueGWEl.textContent = `${formatNumber(mixValueWithGW, 1)} M FCFA`;
+        if(dcfFinalValueGWEl) dcfFinalValueGWEl.textContent = `${formatNumber(dcfValueWithGW, 1)} M FCFA`;
+        
+        // Mettre à jour l'exemple de Goodwill dans l'explication
+        const goodwillExampleBaseEl = document.getElementById('goodwillExampleBase');
+        const goodwillExampleRateEl = document.getElementById('goodwillExampleRate');
+        const goodwillExampleResultEl = document.getElementById('goodwillExampleResult');
+        
+        if(goodwillExampleBaseEl && goodwillExampleRateEl && goodwillExampleResultEl) {
+            // Utiliser mixValue arrondi à l'entier pour l'exemple
+            const exampleBase = Math.round(mixResult.value);
+            const exampleRate = Math.round(goodwillRate * 100);
+            const exampleResult = Math.round(exampleBase * (1 + goodwillRate));
+            
+            goodwillExampleBaseEl.textContent = formatNumber(exampleBase, 0);
+            goodwillExampleRateEl.textContent = exampleRate;
+            goodwillExampleResultEl.textContent = formatNumber(exampleResult, 0);
+        }
+        // ***************** FIN CALCUL ET AFFICHAGE GOODWILL *****************
     };
 
     const exportToCSV = () => {

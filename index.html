@@ -501,10 +501,17 @@
         <!-- Nouvel onglet Goodwill -->
         <div id="goodwill" class="tab-content">
             <div class="section">
+                <div class="info-box" style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; border-left: 4px solid #28a745;">
+                    <h4>Qu'est-ce que le Goodwill ?</h4>
+                    <p>Le Goodwill est une prime immatérielle ajoutée à la valorisation de l'entreprise pour reconnaître le rôle central du dirigeant dans sa performance. Cette valeur reflète son savoir-faire, son réseau, sa capacité à maintenir la rentabilité et à faire croître l'activité.</p>
+                    <p>Elle se calcule simplement en appliquant un pourcentage (généralement entre 3% et 50%) à la valeur obtenue par une méthode DCF ou mixte.</p>
+                    <p>Par exemple, si la valorisation est de <span id="goodwillExampleBase">100</span> M FCFA et que l'on applique un goodwill de <span id="goodwillExampleRate">5</span>%, la valorisation ajustée devient <span id="goodwillExampleResult">105</span> M FCFA.</p>
+                    <p>Ce goodwill permet de valoriser l'humain derrière les chiffres, en particulier lorsque le dirigeant est difficilement remplaçable.</p>
+                </div>
                 <h3>Calcul avec Goodwill</h3>
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label for="goodwillRate">Taux de Goodwill (%):</label>
-                    <input type="number" id="goodwillRate" value="5" step="0.1" min="0" onchange="updateValuation()" style="width: 100px; display: inline-block; margin-left: 10px;">
+                    <input type="number" id="goodwillRate" value="50" step="0.1" min="0" onchange="updateValuation()" style="width: 100px; display: inline-block; margin-left: 10px;">
                 </div>
                 <table>
                     <tr>
