@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Évaluation Mata Volaille</title>
     <script>
         // Définition de la fonction openTab globalement dès le début
@@ -44,6 +44,7 @@
             display: flex;
             margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
         }
         .tab {
             padding: 10px 20px;
@@ -53,6 +54,7 @@
             border-bottom: none;
             border-radius: 5px 5px 0 0;
             margin-right: 5px;
+            margin-bottom: 5px;
         }
         .tab.active {
             background-color: white;
@@ -128,6 +130,105 @@
             height: 300px;
             margin: 20px 0;
         }
+        
+        /* Règles responsive pour mobiles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+            }
+            h1 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            h2, h3 {
+                font-size: 1.2rem;
+            }
+            .tabs {
+                flex-direction: column;
+                border-bottom: none;
+            }
+            .tab {
+                border-radius: 4px;
+                margin-right: 0;
+                margin-bottom: 5px;
+                border: 1px solid #ddd;
+                text-align: center;
+            }
+            .tab.active {
+                border-bottom: 1px solid #16a085;
+                border-color: #16a085;
+            }
+            .section {
+                padding: 10px;
+                margin-bottom: 15px;
+            }
+            /* Tableau responsive */
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin-bottom: 15px;
+            }
+            table {
+                min-width: 500px; /* Forcer la largeur minimum pour permettre le défilement */
+            }
+            th, td {
+                padding: 6px 8px;
+                font-size: 0.9rem;
+            }
+            #hypothesesTable th:nth-child(3),
+            #hypothesesTable td:nth-child(3) {
+                display: none; /* Masquer la colonne commentaires sur mobile */
+            }
+            /* Ajustement des entrées */
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 15px;
+            }
+            input, select {
+                font-size: 16px; /* Éviter le zoom sur mobile */
+                padding: 8px;
+                height: 40px; /* Plus grande zone tactile */
+            }
+            input[type="number"] {
+                max-width: 120px;
+                margin: 5px 0;
+            }
+            /* Boutons plus grands pour mobile */
+            button {
+                padding: 12px 20px;
+                width: 100%;
+                max-width: 250px;
+                font-size: 16px;
+                margin: 10px auto;
+                display: block;
+            }
+            /* Présentation verticale pour certains éléments */
+            .controls {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .controls button {
+                margin: 5px auto;
+            }
+            /* Améliorations infobox */
+            .info-box {
+                padding: 10px !important;
+            }
+            /* Amélioration résultats */
+            .result-box {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -156,6 +257,7 @@
         <div id="hypotheses" class="tab-content active">
             <div class="section">
                 <h3>1. Hypothèses majeures</h3>
+                <div class="table-container">
                 <table id="hypothesesTable">
                     <tr>
                         <th width="30%">Thème</th>
@@ -293,6 +395,7 @@
                         <td><input type="number" id="weightEquity" value="70" min="0" max="100" step="1" onchange="updateMixWeights()"></td>
                     </tr>
                 </table>
+                </div>
             </div>
         </div>
         
@@ -311,6 +414,7 @@
                     </select>
                 </div>
 
+                <div class="table-container">
                 <table id="ebitdaDetailTable">
                     <thead>
                         <tr><th>Élément</th><th>Calcul / Valeur</th><th>Résultat (M FCFA)</th></tr>
@@ -327,6 +431,7 @@
                         <tr style="background-color: #e0f2f1;"><td><strong>EBITDA Net (Année <span class="selectedYear"></span>)</strong></td><td>EBITDA Brut - Assurance</td><td id="detailEbitdaNetValue" class="highlight" style="font-size: 1.1em;"></td></tr>
                      </tbody>
                 </table>
+                </div>
             </div>
         </div>
         <!-- Fin Nouvel onglet Détail EBITDA -->
@@ -335,6 +440,7 @@
         <div id="mix" class="tab-content">
             <div class="section">
                 <h3>Évaluation "Mix Actif / Multiple"</h3>
+                <div class="table-container">
                 <table>
                     <tr>
                         <th>Élément</th>
@@ -367,6 +473,7 @@
                         <td id="mixValue" class="highlight"></td>
                     </tr>
                 </table>
+                </div>
                 
                 <div class="result-box">
                     <h3>Valeur finale - Mix Actif/Multiple</h3>
@@ -380,6 +487,7 @@
         <div id="dcf" class="tab-content">
             <div class="section">
                 <h3>États financiers 2025-2029 et DCF</h3>
+                <div class="table-container">
                 <table>
                     <tr>
                         <th>Année</th>
@@ -400,8 +508,10 @@
                         <!-- Dynamically filled by JavaScript -->
                     </tbody>
                 </table>
+                </div>
                 
                 <h3>Calcul DCF</h3>
+                <div class="table-container">
                 <table>
                     <tr>
                         <th>Année</th>
@@ -443,6 +553,7 @@
                         <td id="equityDCFValue" class="highlight"></td>
                     </tr>
                 </table>
+                </div>
                 
                 <div class="result-box">
                     <h3>Valeur finale - DCF</h3>
@@ -456,6 +567,7 @@
         <div id="sensibilite" class="tab-content">
             <div class="section">
                 <h3>Analyse de sensibilité</h3>
+                <div class="table-container">
                 <table>
                     <tr>
                         <th>Scénario</th>
@@ -482,6 +594,7 @@
                         <td id="effetBFR"></td>
                     </tr>
                 </table>
+                </div>
             </div>
             
             <div class="section">
@@ -513,6 +626,7 @@
                     <label for="goodwillRate">Taux de Goodwill (%):</label>
                     <input type="number" id="goodwillRate" value="50" step="0.1" min="0" onchange="updateValuation()" style="width: 100px; display: inline-block; margin-left: 10px;">
                 </div>
+                <div class="table-container">
                 <table>
                     <tr>
                         <th>Méthode</th>
@@ -530,6 +644,7 @@
                         <td id="dcfValueGW" class="highlight"></td>
                     </tr>
                 </table>
+                </div>
                 <div class="result-box">
                     <h3>Valeurs finales ajustées par le Goodwill</h3>
                     <p>Valeur Mixte ajustée: <span id="mixFinalValueGW" class="highlight"></span></p>
@@ -547,6 +662,7 @@
                 <button id="exportReportBtn" style="margin: 10px auto; display: block;">Télécharger le Rapport (TXT)</button> <!-- Bouton Télécharger Rapport -->
 
                 <h3>1. Hypothèses majeures</h3>
+                <div class="table-container">
                 <table id="reportHypothesesTable">
                     <thead><tr><th>Thème</th><th>Hypothèse</th><th>Commentaire / source</th></tr></thead>
                     <tbody>
@@ -567,8 +683,10 @@
                         <tr><td>Dette actionnaire / Trésorerie</td><td id="reportDetteTreso"></td><td></td></tr>
                      </tbody>
                 </table>
+                </div>
 
                 <h3>2. CAPEX initial 2025 – <span id="reportCapexTotalF"></span> FCFA</h3>
+                <div class="table-container">
                 <table>
                      <thead><tr><th>Poste</th><th>Qté</th><th>Prix unitaire</th><th>Montant (F)</th></tr></thead>
                      <tbody>
@@ -580,9 +698,11 @@
                         <tr><td><strong>Total CAPEX 2025</strong></td><td></td><td></td><td id="reportCapexDetailTotal"><strong>5 750 000</strong></td></tr>
                      </tbody>
                 </table>
+                </div>
                 <p><em>Note: Détails CAPEX basés sur les informations initiales fournies, la valeur totale est dynamique.</em></p>
 
                 <h3>3. BFR cible 30 jours (année 2026) - <span id="reportBFRTotal"></span> M FCFA</h3>
+                <div class="table-container">
                 <table>
                      <thead><tr><th>Composante</th><th>Montant (M FCFA)</th></tr></thead>
                      <tbody>
@@ -593,10 +713,12 @@
                         <tr><td><strong>BFR cible</strong></td><td id="reportBFRDetailTotal"><strong>39,64</strong></td></tr>
                     </tbody>
                 </table>
+                </div>
                 <p>Δ BFR 2025 = <span id="reportBFRDetailDelta"></span> M FCFA</p>
                 <p><em>Note: Détails BFR basés sur les informations initiales fournies, la valeur totale et le delta 2025 sont dynamiques.</em></p>
 
                 <h3>4. États financiers 2025-2029 (FCF)</h3>
+                <div class="table-container">
                 <table id="reportFCFTable">
                      <thead>
                         <tr><th>Année</th><th>CA (M)</th><th>EBITDA</th><th>- Assurance</th><th>EBITDA net</th><th>D&A</th><th>EBIT</th><th>IS 30%</th><th>NOPAT</th><th>+ D&A</th><th>- CAPEX</th><th>- Δ BFR</th><th>FCF (M)</th></tr>
@@ -605,8 +727,10 @@
                          <!-- Rempli par JS -->
                      </tbody>
                 </table>
+                </div>
 
                 <h3>5. Valuation par Discounted Cash Flow</h3>
+                <div class="table-container">
                 <table id="reportDCFCalcTable">
                      <thead><tr><th>Année</th><th>FCF (M)</th><th>Facteur <span id="reportDCFWaccFactor"></span>%</th><th>VA (M)</th></tr></thead>
                      <tbody id="reportDCFCalcTableBody">
@@ -620,8 +744,10 @@
                          <tr><td colspan="3">Equity DCF <span id="reportDCFEquityCalcDetail"></span></td><td id="reportDCFEquity" class="highlight"></td></tr>
                      </tfoot>
                 </table>
+                </div>
 
                 <h3>6. Valuation « Mix Actif / Multiple »</h3>
+                <div class="table-container">
                  <table>
                     <thead><tr><th>Élément</th><th>Calcul</th><th>Valeur (M FCFA)</th></tr></thead>
                     <tbody>
@@ -632,8 +758,10 @@
                         <tr><td>Mix (<span id="reportMixRatioDisplay"></span>)</td><td id="reportMixFinalCalc"></td><td id="reportMixFinalValue" class="highlight"></td></tr>
                     </tbody>
                 </table>
+                </div>
 
                 <h3>7. Comparatif final</h3>
+                <div class="table-container">
                  <table>
                     <thead><tr><th>Méthode</th><th>Valeur centrale (M FCFA)</th><th>Fourchette</th></tr></thead>
                     <tbody>
@@ -641,9 +769,11 @@
                         <tr><td>DCF (WACC <span id="reportCompareDCFWacc"></span>%)</td><td id="reportCompareDCFValue"></td><td id="reportCompareDCFRange"></td></tr>
                      </tbody>
                 </table>
+                </div>
                 <p><strong>Fourchette de négociation suggérée : <span id="reportSuggestRange" class="highlight"></span> M FCFA</strong></p>
 
                 <h3>8. Sensibilités clefs</h3>
+                <div class="table-container">
                 <table id="reportSensitivityTable">
                     <thead><tr><th>Scénario</th><th>Δ EBITDA (M)</th><th>Effet Mix</th><th>Effet DCF</th></tr></thead>
                     <tbody>
@@ -652,6 +782,7 @@
                         <tr><td>Crédit fournisseur 45 j (BFR – 8 M)</td><td>—</td><td>—</td><td id="reportSensEffetBFR"></td></tr>
                      </tbody>
                 </table>
+                </div>
 
                 <h3>Conclusion</h3>
                 <p>En tenant compte :</p>
