@@ -137,6 +137,54 @@
             color: #2980b9; /* Bleu pour distinguer du vert des titres */
         }
         
+        /* Styles pour le marché de la volaille */
+        .marche-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .marche-section h3 {
+            color: #16a085;
+            border-left: 4px solid #16a085;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        
+        .marche-section h4 {
+            color: #2980b9;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        
+        .marche-section ul li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .marche-section p {
+            text-align: justify;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .marche-highlight {
+            background-color: #f1f9f7;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #16a085;
+            margin: 15px 0;
+        }
+        
+        .marche-sources {
+            font-size: 0.9em;
+            font-style: italic;
+            color: #777;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        
         /* Règles responsive pour mobiles */
         @media (max-width: 768px) {
             body {
@@ -234,6 +282,16 @@
             .result-box {
                 padding: 10px;
             }
+            /* Ajustements marché volaille */
+            .marche-section p {
+                font-size: 0.95em;
+            }
+            .marche-section h3 {
+                font-size: 1.3em;
+            }
+            .marche-section h4 {
+                font-size: 1.1em;
+            }
         }
     </style>
 </head>
@@ -257,6 +315,7 @@
             <div class="tab" onclick="openTab('sensibilite')">Sensibilités</div>
             <div class="tab" onclick="openTab('goodwill')">Goodwill</div>
             <div class="tab" onclick="openTab('rapport')">Rapport</div>
+            <div class="tab" onclick="openTab('marche')">Marché de la volaille</div>
         </div>
         
         <!-- Tab Hypothèses -->
@@ -804,6 +863,141 @@
             </div>
         </div>
         <!-- Fin Onglet Rapport -->
+
+        <!-- Onglet Marché de la volaille -->
+        <div id="marche" class="tab-content">
+            <div class="section">
+                <h2 style="text-align: center; color: #16a085;">Marché de la volaille au Sénégal</h2>
+                <p style="text-align: center; font-style: italic; margin-bottom: 30px;">Production de poulets de chair et de pondeuses</p>
+                
+                <div class="marche-section">
+                    <h3>Contexte et dynamisme de la filière avicole sénégalaise</h3>
+                    
+                    <div class="marche-highlight">
+                        <p>L'aviculture sénégalaise s'est imposée comme l'un des secteurs agricoles les plus dynamiques du pays, avec une production de viande de volaille qui a presque <strong>quadruplé entre 2005 et 2019</strong>, atteignant <strong>114 200 tonnes</strong> en 2019.</p>
+                    </div>
+                    
+                    <p>Grâce à une interdiction des importations de volaille depuis 2005, la production locale de poulets de chair et d'œufs s'est fortement développée. Cette mesure initialement sanitaire (grippe aviaire) a eu pour effet de stimuler l'investissement dans la filière.</p>
+                    
+                    <p>Le cheptel avicole total était estimé à plus de <strong>80 millions de têtes</strong> en 2019, dont environ 36% issus de l'aviculture familiale traditionnelle. La filière moderne dite « industrielle » représente donc la majorité de la production (environ 60-64% des effectifs et ~80% de la production de viande).</p>
+                    
+                    <p>Cette expansion s'est traduite par la création de milliers d'emplois (on estimait ~60 000 emplois directs/indirects en 2018) et une contribution accrue à la sécurité alimentaire du pays. Après un ralentissement lors de la pandémie de Covid-19, le secteur montre des signes de reprise malgré de nouveaux défis (hausse des coûts des intrants, grippe aviaire, etc.).</p>
+                    
+                    <p>Le gouvernement considère la filière avicole comme stratégique pour atteindre l'autosuffisance en protéines animales.</p>
+                </div>
+                
+                <div class="marche-section">
+                    <h3>Production locale récente de poulets de chair et de pondeuses (2022-2024)</h3>
+                    
+                    <h4>Volumes de production</h4>
+                    <p>La production sénégalaise de volaille a atteint des niveaux records ces dernières années. D'après le ministère de l'Élevage, la production de viande de volaille est passée de <strong>65 000 tonnes en 2012 à 135 000 tonnes en 2021</strong> (+107%). De même, la production d'œufs de consommation a bondi de <strong>548 millions à 1,3 milliard d'unités</strong> sur la même période (+137%).</p>
+                    
+                    <p>Cette tendance à la hausse se poursuit : en 2019 déjà, on estimait ~885 millions d'œufs produits, contre 1,3 milliard en 2021. Pour les poulets de chair, la progression a été soutenue par l'essor des élevages intensifs. En 2019, environ 78 457 tonnes de poulets (filière moderne) étaient produites, et la croissance s'est maintenue malgré un léger recul pendant la Covid-19.</p>
+                    
+                    <p>On peut estimer qu'en 2023 la production de viande de volaille se situe autour de <strong>150 000 tonnes</strong>, confirmant la place prépondérante du poulet dans l'approvisionnement en viande du pays. La quasi-totalité de cette production alimente le marché intérieur (les exportations vers les pays voisins demeurent marginales).</p>
+                    
+                    <h4>Principales zones de production</h4>
+                    <p>L'élevage industriel de volailles est concentré autour des grands centres urbains pour des raisons logistiques. La région de Dakar et sa périphérie (Niayes, Thiès) regroupe une part importante des élevages de poulets de chair et des fermes de poules pondeuses, profitant de la proximité du principal marché de consommation et des infrastructures (accès aux provendes, aux couvoirs, etc.).</p>
+                    
+                    <p>On trouve notamment de nombreuses exploitations dans le département de Rufisque (Mbao, Diamniadio) et la zone des Niayes au nord de Dakar. La région de Thiès (Mbour, Tivaouane) s'est également développée en pôle avicole.</p>
+                    
+                    <p>En outre, de nouveaux bassins émergent dans le centre-ouest (régions de Fatick, Kaolack, Diourbel), soutenus par des programmes de relance de l'aviculture familiale. Par exemple, un projet du CNCR appuyé par le FIDA vise à insérer 8,4 millions de poulets locaux sur le marché d'ici 2026 dans les départements de Mbour, Fatick et Kaolack.</p>
+                    
+                    <p>L'aviculture villageoise reste répandue sur l'ensemble du territoire (petits troupeaux en basse-cour), notamment au Nord (Saint-Louis) et en Casamance, mais sa contribution marchande est plus modeste. Globalement, la filière est en transition : l'aviculture traditionnelle se maintient (pour environ ~36% du cheptel en 2019), tandis que la production commerciale intensive domine de plus en plus les volumes nationaux.</p>
+                    
+                    <h4>Tendances récentes</h4>
+                    <p>Entre 2020 et 2023, la filière a dû faire face à des chocs externes tout en continuant sa croissance. La pandémie de Covid-19 en 2020 a temporairement réduit la demande (fermeture des hôtels/restaurants) et provoqué des surplus invendus, mais des mesures d'urgence ont aidé à limiter l'impact.</p>
+                    
+                    <p>En 2021-2022, la reprise de la demande intérieure (notamment lors des fêtes religieuses) a relancé la production. Cependant, la crise russo-ukrainienne a entraîné une envolée du coût des intrants importés (aliments, poussins), ralentissant quelque peu l'essor.</p>
+                    
+                    <p>Malgré cela, les chiffres de 2021 montrent un net rebond par rapport à 2019, et les acteurs sont parvenus à couvrir la majeure partie des besoins nationaux en viande de volaille (par exemple, 90% de la demande de poulets pour la Korité 2021 a été satisfaite localement).</p>
+                    
+                    <p>En 2023, la filière a été confrontée à un épisode d'influenza aviaire (H5N1) dans le nord du pays, ayant conduit à l'abattage préventif de plusieurs dizaines de milliers de volailles, mais ce foyer a été rapidement circonscrit par les autorités vétérinaires.</p>
+                    
+                    <p>Ainsi, malgré des aléas sanitaires et économiques, la production locale de poulets de chair et d'œufs au Sénégal reste sur une trajectoire ascendante, soutenue par une demande intérieure robuste.</p>
+                </div>
+                
+                <!-- Suite du contenu -->
+                
+                <div class="marche-section">
+                    <h3>Principaux acteurs de la filière avicole sénégalaise</h3>
+                    
+                    <p>La filière volaille au Sénégal est structurée autour d'une diversité d'acteurs, allant des grandes entreprises intégrées aux petits aviculteurs familiaux, en passant par des organisations professionnelles dynamiques.</p>
+                    
+                    <h4>Grands producteurs intégrés</h4>
+                    <p>Quelques entreprises dominent la production industrielle. Le cas emblématique est <strong>SEDIMA</strong> (Sénégalaise des Industries Avicoles), fondée par Babacar Ngom. SEDIMA est un intégrateur complet présent à tous les stades de la filière – couvoir (production de poussins d'un jour), alimentation animale, élevage de poulets, abattage et même distribution.</p>
+                    
+                    <p>Son principal site à Bayakh peut accueillir 120 000 poulets par cycle et dispose d'un abattoir moderne. Le groupe s'est diversifié (farine, fast-food) et a réalisé ~60 milliards FCFA de chiffre d'affaires en 2022, ce qui en fait le leader national (environ 13% du chiffre d'affaires du secteur).</p>
+                    
+                    <p>Un autre acteur majeur est le <strong>Groupe Amar</strong> (Couvoir Amar et filiales), principal concurrent sur le marché des poussins d'un jour. Ce groupe familial fournit une large part des éleveurs en poussins et aurait produit environ 12 millions de poussins en 2022, avec une montée en capacité début 2023 (nouvelles écloseries).</p>
+                    
+                    <p>On peut citer également la société <strong>APRAN</strong> qui, en partenariat avec l'entreprise locale Gadé Gui, investit dans un nouvel abattoir de 20 000 poulets/jour à Thiès (illustrant l'arrivée de nouveaux investisseurs en 2023).</p>
+                    
+                    <p>Ces grandes entreprises disposent souvent de leur usine d'aliments dédiée et de réseaux de fermes sous contrat. Elles jouent un rôle clé dans l'approvisionnement du marché urbain (notamment Dakar) et collaborent avec des enseignes de restauration (ex: SEDIMA alimente les restaurants KFC au Sénégal).</p>
+                    
+                    <h4>Petites et moyennes entreprises avicoles</h4>
+                    <p>En dehors des leaders, le tissu de la filière est composé de centaines de moyennes et petites fermes commerciales. La plupart des élevages « industriels » sont de taille modeste – autour de 1 000 oiseaux par cycle en moyenne – tenus par des entrepreneurs locaux ou des groupements.</p>
+                    
+                    <p>Quelques exploitations de taille intermédiaire (plusieurs milliers de volailles) se sont développées autour de Dakar, Thiès ou Saint-Louis, souvent spécialisées soit en poulet de chair, soit en production d'œufs.</p>
+                    
+                    <p>Ces PME avicoles achètent généralement leurs poussins aux gros couvoirs (Sedima, Amar, ou autres) et leur aliment aux fabricants de provendes. Elles peuvent écouler leur production via des grossistes de marché, des boutiques agroalimentaires ou en direct aux consommateurs (vente à la ferme, réseaux sociaux, etc.).</p>
+                    
+                    <p>Certaines intègrent une activité de transformation artisanale (abattage, découpe et conditionnement de poulets prêts à cuire pour supermarchés). Néanmoins, l'abattage demeure souvent informel ou réalisé par les clients eux-mêmes sur les marchés traditionnels.</p>
+                    
+                    <h4>Organisations professionnelles et coopératives</h4>
+                    <p>Le secteur avicole est bien organisé. Depuis 2013, l'<strong>Interprofession Avicole du Sénégal (IPAS)</strong> fédère les différentes familles d'acteurs (éleveurs, accouveurs, provendiers, vétérinaires, distributeurs). L'IPAS compte des milliers de membres à travers 11 régions et sert d'interlocuteur auprès de l'État.</p>
+                    
+                    <p>En son sein, on retrouve notamment la <strong>Fédération des Acteurs de la Filière Avicole (FAFA)</strong>, créée en 2002, qui représente de nombreux producteurs et transformateurs à travers le pays. La FAFA défend surtout les intérêts des petits et moyens aviculteurs.</p>
+                    
+                    <p>Il existe aussi des unions spécialisées, par exemple l'<strong>Union Nationale des Provendiers</strong> (fabricants d'aliments), l'<strong>Union des accouveurs (UNAPS)</strong>, des associations régionales d'aviculteurs (comme AVISEN à Louga ou l'Association des aviculteurs de Dakar).</p>
+                    
+                    <p>Ces structures jouent un rôle important de formation, mutualisation et plaidoyer. Par exemple, l'UNAPS fixe les standards de qualité des poussins et a récemment communiqué les nouveaux tarifs de vente des poussins d'un jour (entre 550 et 580 FCFA l'unité selon vaccination en 2023). De même, la FAFA a été active pour dénoncer les hausses de coût de l'aliment et demander un soutien public.</p>
+                    
+                    <h4>Structures de distribution et de transformation</h4>
+                    <p>La commercialisation de la volaille locale s'appuie sur des circuits variés. Les marchés traditionnels (comme Tilène, Sandaga à Dakar, et les foirails hebdomadaires en régions) restent le débouché principal pour les poulets "prêts à cuire" vendus vivants.</p>
+                    
+                    <p>Des commerçants/marchands de volaille rachètent les poulets aux fermes (ou aux collecteurs) pour les revendre sur pied sur les marchés, en réalisant une marge d'environ 500 FCFA par poulet en moyenne.</p>
+                    
+                    <p>Parallèlement, des circuits modernes émergent : supermarchés (Casino, Auchan…) proposant des poulets abattus et des œufs conditionnés, boucheries spécialisées, ou encore la restauration (fast-food locaux, rôtisseries, etc.). SEDIMA a lancé sa chaîne "Djoloff Chicken" et la franchise KFC pour écouler une partie de sa production transformée.</p>
+                    
+                    <p>L'abattage industriel reste toutefois limité à quelques unités (SEDIMA, nouvelles installations en cours à Thiès), la majorité des poulets étant vendus vivants. Enfin, des couveurs publics comme le Centre National d'Aviculture (CNA) de Mbao appuient la filière en contrôlant la qualité sanitaire des poussins et en encadrant techniquement les éleveurs familiaux.</p>
+                </div>
+                
+                <div class="marche-section">
+                    <h3>Analyse économique de la filière avicole sénégalaise</h3>
+                    
+                    <h4>Prix de vente moyens (poulet vif, œufs, viande)</h4>
+                    <p>Les prix de vente de la volaille au Sénégal varient selon le lieu (à la ferme ou sur le marché) et la forme de produit (poulet vif, poulet prêt à cuire, œufs, etc.). Voici quelques ordres de grandeur récents :</p>
+                    
+                    <ul>
+                        <li><strong>Poulets de chair (vivants) – prix à la ferme :</strong> Le prix bord champ pour un poulet vif est généralement exprimé par tête. En 2020-2021, il oscillait autour de 1 000–1 100 FCFA par kg de poids vif, soit environ 2 000 à 2 200 FCFA pour un poulet de 2 kg sorti d'élevage. Ce tarif peut monter à l'approche des fêtes (lorsque la demande dépasse l'offre). Par exemple, dans la région de Louga début 2023, les éleveurs vendaient leurs poulets ~3 500 FCFA l'unité (pour des sujets de 1,5–2 kg), alors qu'ils les cédaient à 3 000 FCFA auparavant. Cette hausse reflète le renchérissement des coûts et la tension du marché pré-Korité.</li>
+                        
+                        <li><strong>Poulets de chair – prix sur le marché :</strong> Pour le consommateur final, le poulet local revient plus cher. Sur les marchés urbains, un poulet vif "standard" se vend autour de 3 500 à 4 000 FCFA pièce en 2023 (selon le poids et la période). Ce qui équivaut à ~2 500 FCFA/kg en moyenne pour du poulet entier non découpé. Le gouvernement a tenté de réguler les prix en 2022 face à l'inflation : un prix plafond de 3 000 FCFA/kg (soit ~2 800 FCFA par poulet de taille moyenne) avait été annoncé sur Dakar, mais dans la pratique les tarifs réels sont restés plus élevés en dehors des mesures temporaires.</li>
+                        
+                        <li><strong>Œufs de table – prix à la ferme :</strong> Les œufs produits localement sont majoritairement vendus en plateaux de 30. Au niveau des élevages (ou des grossistes), un plateau d'œufs s'échangeait aux alentours de 1 700 à 2 200 FCFA ces dernières années. Ce prix bord ferme (en gros) correspond à environ 60–75 FCFA par œuf. En 2023, les aviculteurs ont fait face à une augmentation du coût de production des œufs, ce qui a entraîné une hausse des prix de gros.</li>
+                        
+                        <li><strong>Œufs – prix de détail :</strong> Pour le consommateur, le prix d'un œuf oscille généralement entre 100 et 125 FCFA l'unité sur le marché. Le gouvernement avait fixé en novembre 2022 un prix conseillé de 100 FCFA par œuf (soit 2 800 FCFA le plateau de 30) à Dakar. En pratique, on observait fin 2022 et en 2023 des plateaux vendus entre 2 800 et 3 200 FCFA selon la taille des œufs et la localisation (plus cher en zone isolée).</li>
+                    </ul>
+                    
+                    <p>En résumé, les prix de vente de la volaille sénégalaise ont connu une hausse sensible depuis 2020, reflétant l'augmentation des coûts de production. Un poulet de chair vivant se monnaye environ 3 000 à 4 000 FCFA sur le marché, tandis qu'une douzaine d'œufs coûte 1 200 à 1 500 FCFA en moyenne au détail.</p>
+                    
+                    <!-- Suite à venir -->
+            </div> 
+            <div class="marche-source">
+                <h3>Les sources de l'étude</h3>
+               Ministère de l'Élevage et des Productions animales (Sénégal) – [https://www.elevage.gouv.sn/](https://www.elevage.gouv.sn/)
+               Agence Nationale de la Statistique et de la Démographie (ANSD) – [https://www.ansd.sn/](https://www.ansd.sn/)
+               Organisation des Nations Unies pour l'Alimentation et l'Agriculture (FAO – Sénégal) – [https://www.fao.org/countryprofiles/index/fr/?iso3=SEN](https://www.fao.org/countryprofiles/index/fr/?iso3=SEN)
+               Banque Mondiale – Profil pays Sénégal – [https://www.worldbank.org/fr/country/senegal](https://www.worldbank.org/fr/country/senegal)
+               Initiative Prospective Agricole et Rurale (IPAR Sénégal) – [http://www.ipar.sn/](http://www.ipar.sn/)
+               Conseil National de Concertation et de Coopération des Ruraux (CNCR) – [http://www.cncr.org.sn/](http://www.cncr.org.sn/)
+               EnQuête+ (site d'informations économiques et sociales) – [https://www.enqueteplus.com/](https://www.enqueteplus.com/)
+               SenePlus (actualité économique et politique) – [https://www.seneplus.com/](https://www.seneplus.com/)
+               PressAfrik (presse en ligne) – [https://www.pressafrik.com/](https://www.pressafrik.com/)
+               Chambre de Commerce, d'Industrie et d'Agriculture de Dakar (CCIAD) – [https://www.cciad.sn/](https://www.cciad.sn/)
+                </div>
+        </div>
+        <!-- Fin Onglet Marché de la volaille -->
     </div>
 
     <script>
