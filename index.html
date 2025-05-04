@@ -131,6 +131,12 @@
             margin: 20px 0;
         }
         
+        /* Style pour la marge opérationnelle */
+        .semi-bold-accent {
+            font-weight: 600; /* Plus léger que bold (700) */
+            color: #2980b9; /* Bleu pour distinguer du vert des titres */
+        }
+        
         /* Règles responsive pour mobiles */
         @media (max-width: 768px) {
             body {
@@ -302,7 +308,7 @@
                         <td>Grossistes</td>
                         <td><input type="number" id="prixOeufs" value="2300" onchange="updateValuation()"></td>
                     </tr>
-                    <tr>
+                    <tr class="semi-bold-accent">
                         <td>Marge opérationnelle</td>
                         <td id="margeOpDisplay">18%</td>
                         <td>Historique iteratif</td>
@@ -425,7 +431,7 @@
                         <tr><td>CA Broilers</td><td id="detailEbitdaCaBroilersCalc"></td><td id="detailEbitdaCaBroilersValue"></td></tr>
                         <tr><td>CA Oeufs</td><td id="detailEbitdaCaOeufsCalc"></td><td id="detailEbitdaCaOeufsValue"></td></tr>
                         <tr style="background-color: #f9f9f9;"><td><strong>CA Total</strong></td><td>Somme</td><td id="detailEbitdaCaTotalValue" class="highlight"></td></tr>
-                        <tr><td>Marge Opérationnelle</td><td id="detailEbitdaMargeOpPercent"></td><td></td></tr>
+                        <tr class="semi-bold-accent"><td>Marge Opérationnelle</td><td id="detailEbitdaMargeOpPercent"></td><td></td></tr>
                         <tr><td>EBITDA Brut</td><td id="detailEbitdaBrutCalc"></td><td id="detailEbitdaBrutValue"></td></tr>
                         <tr><td>(-) Assurance Annuelle</td><td id="detailEbitdaAssuranceValue"></td><td></td></tr>
                         <tr style="background-color: #e0f2f1;"><td><strong>EBITDA Net (Année <span class="selectedYear"></span>)</strong></td><td>EBITDA Brut - Assurance</td><td id="detailEbitdaNetValue" class="highlight" style="font-size: 1.1em;"></td></tr>
@@ -604,10 +610,10 @@
                     <li>d'une assurance broilers équivalente à <span id="conclusionAssurance"></span> M FCFA/an,</li>
                     <li>d'un CAPEX initial limité à <span id="conclusionCAPEX"></span> M FCFA,</li>
                     <li>d'un BFR permanent d'environ <span id="conclusionBFR"></span> M FCFA et</li>
-                    <li>d'une marge opérationnelle <span id="conclusionMarge"></span>% (hors assurance),</li>
+                    <li class="semi-bold-accent">d'une marge opérationnelle <span id="conclusionMarge"></span>% (hors assurance),</li>
                 </ul>
                 <p>la valeur économique de Mata Volaille se situe entre <span id="conclusionFourchetteBas" class="highlight"></span> M et <span id="conclusionFourchetteHaut" class="highlight"></span> M FCFA.</p>
-                <p>Le paramètre le plus sensible reste la marge unitaire : chaque variation de 100 FCFA sur le prix de vente ou le coût d'aliment déplace la valeur DCF d'environ <span id="conclusionSensibilite"></span> M FCFA.</p>
+                <p>Le paramètre le plus sensible reste la <span class="semi-bold-accent">marge unitaire</span> : chaque variation de 100 FCFA sur le prix de vente ou le coût d'aliment déplace la valeur DCF d'environ <span id="conclusionSensibilite"></span> M FCFA.</p>
             </div>
         </div>
 
@@ -669,7 +675,7 @@
                         <tr><td>Capacités</td><td id="reportCapacites"></td><td>Planning interne</td></tr>
                         <tr><td>Prix poulet</td><td id="reportPrixPoulet"></td><td>Marché Dakar Q2-2025</td></tr>
                         <tr><td>Prix plateau œufs</td><td id="reportPrixOeufs"></td><td>Grossistes</td></tr>
-                        <tr><td>Marge opérationnelle</td><td id="reportMargeOp"></td><td>Historique iteratif</td></tr>
+                        <tr class="semi-bold-accent"><td>Marge opérationnelle</td><td id="reportMargeOp"></td><td>Historique iteratif</td></tr>
                         <tr><td>Assurance broilers</td><td id="reportAssurance"></td><td>Police SICAR</td></tr>
                         <tr><td>CAPEX 2025</td><td id="reportCapex2025"></td><td>Devis locaux</td></tr>
                         <tr><td>CAPEX maintenance 2026+</td><td id="reportCapexMaintenance"></td><td></td></tr>
@@ -790,10 +796,10 @@
                   <li>d'une assurance broilers équivalente à <span id="reportConcluAssurance"></span> M FCFA/an,</li>
                   <li>d'un CAPEX initial limité à <span id="reportConcluCapex"></span> M FCFA,</li>
                   <li>d'un BFR permanent d'environ <span id="reportConcluBFR"></span> M FCFA et</li>
-                  <li>d'une marge opérationnelle <span id="reportConcluMarge"></span>% (hors assurance),</li>
+                  <li class="semi-bold-accent">d'une marge opérationnelle <span id="reportConcluMarge"></span>% (hors assurance),</li>
                 </ul>
                 <p>la valeur économique de Mata Volaille se situe entre <span id="reportConcluRangeBas" class="highlight"></span> M et <span id="reportConcluRangeHaut" class="highlight"></span> M FCFA.</p>
-                <p>Le paramètre le plus sensible reste la marge unitaire : chaque variation de 100 FCFA sur le prix de vente ou le coût d'aliment déplace la valeur DCF d'environ <span id="reportConcluSensMarge" class="highlight"></span> M FCFA.</p>
+                <p>Le paramètre le plus sensible reste la <span class="semi-bold-accent">marge unitaire</span> : chaque variation de 100 FCFA sur le prix de vente ou le coût d'aliment déplace la valeur DCF d'environ <span id="reportConcluSensMarge" class="highlight"></span> M FCFA.</p>
 
             </div>
         </div>
